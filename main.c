@@ -3,10 +3,14 @@
 #include <unistd.h>
 #include "stats.h"
 #include "memory.h"
+#include "pid.h"
 
-
+#define MAX_PROCESSES 512
+#define VISIBLE_ROWS 15
 
 int main(void) {
+
+    ProcessInfo procs[MAX_PROCESSES];
 
    long core_count_long = sysconf(_SC_NPROCESSORS_ONLN);
     size_t core_count;
@@ -63,6 +67,11 @@ int main(void) {
 
     for (size_t i = 0; i < core_count; i++)
         printf("Core %zu: %.2f%%\n", i, calculate_core_usage(&prev[i], &curr[i]));
+
+    int proc_count = collect_processes(procs, MAX_PROCESSES);
+    if (proc_count > 0) {
+        print_processes(procs, proc_count, VISIBLE_ROWS);
+    }
 
     CoreTimes *tmp = prev;
     prev = curr;

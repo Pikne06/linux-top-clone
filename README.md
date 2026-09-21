@@ -7,7 +7,7 @@
 
 **Compile**
 ```bash
-gcc -Wall -Wextra -o htopclone main.c stats.c memory.c
+gcc -Wall -Wextra -o htopclone main.c stats.c memory.c pid.c
 ```
 
 **Run**
